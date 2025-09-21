@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Daily Weather Report</title>
+        <link rel="stylesheet" href="index.html"> <!-- Optional: for styling -->
+    </head>
+    <body>
+        <div class="weather-container">
+            <h1>Daily Weather Report</h1>
+            <input type="text" id="cityInput" placeholder="Enter city name">
+            <button id="getWeatherBtn">Get Weather</button>
+            <div id="weatherDisplay">
+                <!-- Weather data will be displayed here -->
+            </div>
+        </div>
+
+        <script src="ai.js"></script>
+    </body>
+    </html>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Money Manager with Charts</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+    h1 { color: #2d6cdf; }
+    .card { padding: 20px; margin: 20px auto; width: 400px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    input, select, button { padding: 10px; margin: 5px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px; }
+    button {  color: white; border: none; cursor: pointer; }
+    #result { margin-top: 20px; font-weight: bold; }
+    canvas { margin: 20px auto; max-width: 500px; }
+  </style>
+</head>
+<body>
+  <h1>💰 AI Money Manager</h1>
+  <div class="card">
+    <label>Weekly Budget Limit (₹): </label>
+    <input type="number" id="budget" placeholder="Enter limit"><br><br>
+    
+    <label>Expense Amount (₹): </label>
+    <input type="number" id="expense" placeholder="Enter expense"><br><br>
+    
+    <label>Category: </label>
+    <select id="category">
+      <option value="Food">🍔 Food</option>
+      <option value="Travel">🚗 Travel</option>
+      <option value="Shopping">🛍 Shopping</option>
+      <option value="Bills">💡 Bills</option>
+      <option value="Entertainment">🎬 Entertainment</option>
+    </select><br><br>
+    
+    <button onclick="addExpense()">Add Expense</button>
+    <button onclick="resetExpenses()">Reset</button>
+    
+    <p id="total">Total Expenses: ₹0</p>
+    <p id="result"></p>
+  </div>
+
+  <!-- Pie chart for category percentage -->
+  <canvas id="pieChart"></canvas>
+  <!-- Bar chart for inflation -->
+  <canvas id="inflationChart"></canvas>
+
+  <script>
+    let total = 0;
+    let expensesByCategory = {
+      "Food": 0,
+      "Travel": 0,
+      "Shopping": 0,
+      "Bills": 0,
+      "Entertainment": 0
+    };
+
+    function playBeep() {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = ctx.createOscillator();
+      const gainNode = ctx.createGain();
+      oscillator.type = "sine";
+      oscillator.frequency.setValueAtTime(600, ctx.currentTime);
+      gainNode.gain.setValueAtTime(0.2, ctx.currentTime);
+      oscillator.connect(gainNode);
+      gainNode.connect(ctx.destination);
+      oscillator.start();
+      oscillator.stop(ctx.currentTime + 0.3);
+    }
+
+    function addExpense() {
+      const expense = parseFloat(document.getElementById("expense").value);
+      const budget = parseFloat(document.getElementById("budget").value);
+      const category = document.getElementById("category").value;
+
+      if (!isNaN(expense)) {
+        total += expense;
+        expensesByCategory[category] += expense;
+
+        document.getElementById("total").innerText = "Total Expenses: ₹" + total;
+
+        if (total > budget) {
+          playBeep();
+          document.getElementById("result").innerText = "⚠️ You exceeded your budget!";
+        } else if (total > budget * 0.8) {
+          document.getElementById("result").innerText = "💡 Warning: You're close to your budget.";
+        } else {
+          document.getElementById("result").innerText = "✅ Good job! You are managing your money well.";
+        }
+
+        updateCharts();
+      }
+      document.getElementById("expense").value = "";
+    }
+
+    function resetExpenses() {
+      total = 0;
+      for (let key in expensesByCategory) {
+        expensesByCategory[key] = 0;
+      }
+      document.getElementById("total").innerText = "Total Expenses: ₹0";
+      document.getElementById("result").innerText = "";
+      updateCharts();
+    }
+
+    // Pie Chart
+    const pieCtx = document.getElementById('pieChart').getContext('2d');
+    const pieChart = new Chart(pieCtx, {
+      type: 'pie',
+      data: {
+        labels: Object.keys(expensesByCategory),
+        datasets: [{
+          label: 'Expenses by Category',
+          data: Object.values(expensesByCategory),
+          backgroundColor: ['#ff6384','#36a2eb','#ffce56','#4caf50','#9c27b0']
+        }]
+      }
+    });
+
+    // Inflation Bar Chart
+    const inflCtx = document.getElementById('inflationChart').getContext('2d');
+    const inflationChart = new Chart(inflCtx, {
+      type: 'bar',
+      data: {
+        labels: Object.keys(expensesByCategory),
+        datasets: [{
+          label: 'Current Expense (₹)',
+          data: Object.values(expensesByCategory),
+          backgroundColor: '#36a2eb'
+        },
+        {
+          label: 'After 1 Year with 6% Inflation (₹)',
+          data: Object.values(expensesByCategory).map(val => (val * 1.06).toFixed(2)),
+          backgroundColor: '#ff6384'
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: { y: { beginAtZero: true } }
+      }
+    });
+
+    function updateCharts() {
+      // Update Pie chart
+      pieChart.data.datasets[0].data = Object.values(expensesByCategory);
+      pieChart.update();
+
+      // Update Inflation chart
+      inflationChart.data.datasets[0].data = Object.values(expensesByCategory);
+      inflationChart.data.datasets[1].data = Object.values(expensesByCategory).map(val => (val * 1.06).toFixed(2));
+      inflationChart.update();
+    }
+  </script>
+</body>
+</html>

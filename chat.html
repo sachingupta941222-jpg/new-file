@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Utility Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f7f9; margin: 0; padding: 20px; }
+    .button-container { margin-bottom: 20px; }
+    button { padding: 10px 20px; margin-right: 10px; border-radius: 6px; border: 1px solid #2d6cdf; background: #2d6cdf; color: #fff; cursor: pointer; }
+    button:hover { background: #1e4fb1; }
+    #chat-section, #money-manager-section { background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); max-width: 600px; margin: 0 auto 20px auto; }
+    #chat { min-height: 80px; margin-bottom: 10px; }
+    .user { color: #2d6cdf; }
+    .ai { color: #388e3c; }
+    input[type="text"] { width: 70%; padding: 10px; border-radius: 6px; border: 1px solid #ccc; }
+  </style>
+</head>
+<body>
+  <div class="button-container">
+    <button onclick="showSection('chat-section')">AI Chat</button>
+    <button onclick="showSection('money-manager-section')">Money Manager</button>
+    <!-- Add more buttons as needed -->
+  </div>
+
+  <!-- AI Chat Section -->
+  <div id="chat-section" style="display:none;">
+    <h1>AI Chat (Live Web Knowledge)</h1>
+    <div id="chat"></div>
+    <input type="text" id="userInput" placeholder="Ask something...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
+  <!-- Money Manager Section -->
+  <div id="money-manager-section" style="display:none;">
+    <h1>Money Manager</h1>
+    <!-- Add your money manager HTML and JS here -->
+    <p>Coming soon...</p>
+  </div>
+
+  <script>
+    // Show the first section by default
+    showSection('chat-section');
+
+    function showSection(id) {
+      document.getElementById('chat-section').style.display = 'none';
+      document.getElementById('money-manager-section').style.display = 'none';
+      document.getElementById(id).style.display = 'block';
+    }
+
+    async function sendMessage() {
+      const userInput = document.getElementById('userInput').value;
+      if (!userInput) return;
+
+      const chat = document.getElementById('chat');
+      chat.innerHTML += `<div class="user">You: ${userInput}</div>`;
+      document.getElementById('userInput').value = '';
+
+      try {
+        const res = await fetch('http://localhost:5000/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: userInput })
+        });
+
+        const data = await res.json();
+        chat.innerHTML += `<div class="ai">AI: ${data.reply}</div>`;
+
+
+
+
+
+
+
+
+</html></body>  </script>    }      }        console.error(err);        chat.innerHTML += `<div class="ai">AI: Sorry, could not get response.</div>`;      } catch (err) {      } catch (err) {
+        chat.innerHTML += `<div class="ai">AI: Sorry, could not get response.</div>`;
+        console.error(err);
+      }
+    }
+  </script>
+</body>
+</html>

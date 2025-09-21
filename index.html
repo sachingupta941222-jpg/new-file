@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Utility Hub</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: url('istockphoto-1362365251-612x612.jpg') no-repeat center center/cover;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      color: white;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 8px black;
+    }
+
+    .button-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    button {
+      padding: 12px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #ffffff;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <h1>AI Utility Hub</h1>
+  
+  <div class="button-container">
+    <button onclick="startChat()">Start Chat</button>
+    <button onclick="proteinCalculator()">Protein Intake Calculator</button>
+    <button onclick="haircutPlanner()">Haircut Planner</button>
+    <button onclick="showMoneyManager()">AI Money Manager</button>
+  </div>
+
+  <script>
+    function startChat() {
+      alert("Chat feature coming soon...");
+    }
+
+
+
+    function proteinCalculator() {
+      alert("Protein calculator feature coming soon...");
+    }
+
+    function haircutPlanner() {
+      alert("Haircut planner feature coming soon...");
+    }
+  </script>
+  <div id="protein-section" style="display:none; margin-top:20px;">
+  <h2>Protein Intake Calculator</h2>
+  <input type="number" id="weight" placeholder="Enter your weight (kg)" />
+  <button onclick="calculateProtein()">Calculate</button>
+  <p id="protein-result"></p>
+</div>
+
+<script>
+  function proteinCalculator() {
+    document.getElementById("protein-section").style.display = "block";
+  }
+
+  function calculateProtein() {
+    let weight = document.getElementById("weight").value;
+    if (weight === "" || weight <= 0) {
+      document.getElementById("protein-result").innerText = "⚠️ Please enter a valid weight!";
+      return;
+    }
+    let protein = weight * 1.5;
+    document.getElementById("protein-result").innerText = 
+      "✅ Recommended Protein Intake: " + protein + " grams/day";
+  }
+</script>
+<!-- Add this inside <body> after protein section -->
+<div id="haircut-section" style="display:none; margin-top:20px;">
+  <h2>Haircut Planner</h2>
+  <input type="file" id="photoUpload" accept="image/*" onchange="showPreview(event)">
+  <br><br>
+  <img id="preview" style="max-width:200px; display:none; border:2px solid #fff; border-radius:10px;">
+  
+  <br><br>
+  <label for="faceType">Select Detected Face Type (demo):</label>
+  <select id="faceType">
+    <option value="thin">Thin</option>
+    <option value="round">Round</option>
+    <option value="thick">Thick</option>
+  </select>
+  
+  <button onclick="suggestHaircut()">Get Hairstyle Suggestion</button>
+  <p id="haircut-result"></p>
+</div>
+
+<script>
+  function haircutPlanner() {
+    document.getElementById("haircut-section").style.display = "block";
+  }
+
+  function showPreview(event) {
+    let img = document.getElementById("preview");
+    img.src = URL.createObjectURL(event.target.files[0]);
+    img.style.display = "block";
+  }
+
+  function suggestHaircut() {
+    let faceType = document.getElementById("faceType").value;
+    let result = "";
+
+    if (faceType === "thin") {
+      result = "✅ Oval faces can pull off nearly any hairstyle, from shoulder-length cuts with layers to blunt styles, but can also experiment with asymmetrical cuts or bobs.";
+    } else if (faceType === "round") {
+      result = "✅ Best Cuts: Add height and length to create the illusion of a longer face, such as with long, layered cuts, side-swept bangs, or pixies with volume on top.";
+    } else if (faceType === "thick") {
+      result = "✅ Styles with volume on the top, like a pompadour, help elongate the face and create a more balanced profile.";
+    }
+
+    document.getElementById("haircut-result").innerText = result;
+    
+  }
+</script>
+  
+</body>
+</html>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Daily Weather Report</title>
+        <link rel="stylesheet" href="style.css"> <!-- Optional: for styling -->
+    </head>
+    <body>
+        <div class="weather-container">
+            <h1>Daily Weather Report</h1>
+            <input type="text" id="cityInput" placeholder="Enter city name">
+            <button id="getWeatherBtn">Get Weather</button>
+            <div id="weatherDisplay">
+                <!-- Weather data will be displayed here -->
+            </div>
+        </div>
+
+        <script src="ai.js"></script>
+    </body>
+    </html>
+<div id="money-manager-section" style="display:none; margin-top:20px;">
+  <h2>💰 AI Money Manager</h2>
+  <div class="card" style="background: white; color: #222; padding: 20px; margin: 20px auto; width: 400px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+    <label>Weekly Budget Limit (₹): </label>
+    <input type="number" id="budget" placeholder="Enter limit"><br><br>
+    <label>Expense Amount (₹): </label>
+    <input type="number" id="expense" placeholder="Enter expense"><br><br>
+    <label>Category: </label>
+    <select id="category">
+      <option value="Food">🍔 Food</option>
+      <option value="Travel">🚗 Travel</option>
+      <option value="Shopping">🛍 Shopping</option>
+      <option value="Bills">💡 Bills</option>
+      <option value="Entertainment">🎬 Entertainment</option>
+    </select><br><br>
+    <button onclick="addExpense()">Add Expense</button>
+    <button onclick="resetExpenses()">Reset</button>
+    <p id="total">Total Expenses: ₹0</p>
+    <p id="result"></p>
+  </div>
+  <canvas id="pieChart"></canvas>
+  <canvas id="inflationChart"></canvas>
+</div>
+
+<script>
+  function showMoneyManager() {
+    document.getElementById("money-manager-section").style.display = "block";
+  }
+
+  let total = 0;
+  let expensesByCategory = {
+    "Food": 0,
+    "Travel": 0,
+    "Shopping": 0,
+    "Bills": 0,
+    "Entertainment": 0
+  };
+
+  function playBeep() {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = ctx.createOscillator();
+    const gainNode = ctx.createGain();
+    oscillator.type = "sine";
+    oscillator.frequency.setValueAtTime(600, ctx.currentTime);
+    gainNode.gain.setValueAtTime(0.2, ctx.currentTime);
+    oscillator.connect(gainNode);
+    gainNode.connect(ctx.destination);
+    oscillator.start();
+    oscillator.stop(ctx.currentTime + 0.3);
+  }
+
+  function addExpense() {
+    const expense = parseFloat(document.getElementById("expense").value);
+    const budget = parseFloat(document.getElementById("budget").value);
+    const category = document.getElementById("category").value;
+
+    if (!isNaN(expense)) {
+      total += expense;
+      expensesByCategory[category] += expense;
+
+      document.getElementById("total").innerText = "Total Expenses: ₹" + total;
+
+      if (total > budget) {
+        playBeep();
+        document.getElementById("result").innerText = "⚠️ You exceeded your budget!";
+      } else if (total > budget * 0.8) {
+        document.getElementById("result").innerText = "💡 Warning: You're close to your budget.";
+      } else {
+        document.getElementById("result").innerText = "✅ Good job! You are managing your money well.";
+      }
+
+      updateCharts();
+    }
+    document.getElementById("expense").value = "";
+  }
+
+  function resetExpenses() {
+    total = 0;
+    for (let key in expensesByCategory) {
+      expensesByCategory[key] = 0;
+    }
+    document.getElementById("total").innerText = "Total Expenses: ₹0";
+    document.getElementById("result").innerText = "";
+    updateCharts();
+  }
+
+  // Pie Chart
+  let pieChart, inflationChart;
+  window.addEventListener('DOMContentLoaded', () => {
+    const pieCtx = document.getElementById('pieChart').getContext('2d');
+    pieChart = new Chart(pieCtx, {
+      type: 'pie',
+      data: {
+        labels: Object.keys(expensesByCategory),
+        datasets: [{
+          label: 'Expenses by Category',
+          data: Object.values(expensesByCategory),
+          backgroundColor: ['#ff6384','#36a2eb','#ffce56','#4caf50','#9c27b0']
+        }]
+      }
+    });
+
+    // Inflation Bar Chart
+    const inflCtx = document.getElementById('inflationChart').getContext('2d');
+    inflationChart = new Chart(inflCtx, {
+      type: 'bar',
+      data: {
+        labels: Object.keys(expensesByCategory),
+        datasets: [{
+          label: 'Current Expense (₹)',
+          data: Object.values(expensesByCategory),
+          backgroundColor: '#36a2eb'
+        },
+        {
+          label: 'After 1 Year with 6% Inflation (₹)',
+          data: Object.values(expensesByCategory).map(val => (val * 1.06).toFixed(2)),
+          backgroundColor: '#ff6384'
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: { y: { beginAtZero: true } }
+      }
+    });
+  });
+
+  function updateCharts() {
+    // Update Pie chart
+    pieChart.data.datasets[0].data = Object.values(expensesByCategory);
+    pieChart.update();
+
+    // Update Inflation chart
+    inflationChart.data.datasets[0].data = Object.values(expensesByCategory);
+    inflationChart.data.datasets[1].data = Object.values(expensesByCategory).map(val => (val * 1.06).toFixed(2));
+    inflationChart.update();
+  }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Learn English - Voice Translate</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+     
+    }
+    button {
+      padding: 12px 25px;
+      font-size: 16px;
+      margin: 15px;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+    }
+    
+    #output {
+      margin-top: 25px;
+      font-size: 20px;
+      padding: 20px;
+      background: #ffffff;
+      border-radius: 10px;
+      display: inline-block;
+      box-shadow: 0px 3px 6px rgba(0,0,0,0.2);
+      min-width: 300px;
+    }
+    #status {
+      font-size: 16px;
+      margin-top: 10px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>🗣️ Learn English with AI</h1>
+  <button id="startBtn">🎤 Speak in Hindi</button>
+  <p id="status">Click the button and speak...</p>
+  <div id="output">Translation will appear here...</div>
+
+  <script>
+    const startBtn = document.getElementById("startBtn");
+    const status = document.getElementById("status");
+    const output = document.getElementById("output");
+
+    // Check if browser supports SpeechRecognition
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      status.innerText = "❌ Your browser does not support SpeechRecognition. Use Chrome Desktop.";
+    } else {
+      const recognition = new SpeechRecognition();
+      recognition.lang = "hi-IN"; // Hindi
+      recognition.interimResults = false;
+
+      startBtn.addEventListener("click", () => {
+        recognition.start();
+        status.innerText = "🎙 Listening... please speak in Hindi";
+        output.innerHTML = "Listening...";
+      });
+
+      recognition.onresult = async (event) => {
+        const hindiText = event.results[0][0].transcript;
+        status.innerText = "✅ Voice detected! Translating...";
+        output.innerHTML = `<b>Hindi:</b> ${hindiText}`;
+
+        // Translate using Google Translate unofficial API
+        try {
+          const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=hi&tl=en&dt=t&q=${encodeURIComponent(hindiText)}`);
+          const data = await res.json();
+          const englishText = data[0][0][0];
+
+          output.innerHTML = `<b>Hindi:</b> ${hindiText}<br><b>English:</b> ${englishText}`;
+
+          // Speak the English translation
+          const speech = new SpeechSynthesisUtterance(englishText);
+          speech.lang = "en-US";
+          window.speechSynthesis.speak(speech);
+          status.innerText = "✅ Translation completed!";
+        } catch (err) {
+          status.innerText = "⚠️ Translation failed. Please try again.";
+          console.error(err);
+        }
+      };
+
+      recognition.onspeechend = () => {
+        recognition.stop();
+        status.innerText = "🎤 Stopped listening.";
+      };
+
+      recognition.onerror = (event) => {
+        status.innerText = "❌ Error: " + event.error;
+      };
+    }
+  </script>
+</body>
+</html>
+  
